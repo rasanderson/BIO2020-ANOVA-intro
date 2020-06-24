@@ -289,4 +289,57 @@ This is obvious in the plot where you can see that it is only for the sand vs
 loam difference that the error bars do not include zero.
 
 ## Check model assumptions
-Still do to
+After looking at the results of your linear model, it is worth checking that
+the model assumptions are valid. Recall that linear models are of the format
+
+$$response\textrm{ }variable = explanatory\textrm{ }variable(s) + \epsilon$$
+where you will recall that the Greek letter $\epsilon$ (epsilon) represents the
+unknown variability, noise or residual error in your model. This noise has to be
+similar for all three soil types in your explanatory variable, and crucially, 
+should be normally (bell-shaped) if plotted in a frequency distribution.
+
+We can easily plot the frequency histogram using the `gf_histogram()` function.
+Go ahead and try it now. Remember that before you use the `gf_histogram()` function
+you will need to use the `residuals()` function to save the positive and 
+negative residuals from the model.
+
+```{r resid_histogram, exercise=TRUE, code.completion=FALSE}
+crop_growth_lm <- lm(yield ~ soil, data = crop_growth)
+
+```
+```{r resid_histogram-solution}
+crop_growth_lm <- lm(yield ~ soil, data = crop_growth)
+crop_growth_error <- residuals(crop_growth_lm)
+gf_histogram( ~ crop_growth_error)
+```
+
+As this dataset has 30 records (10 per soil type) it is easier to see that the
+frequency histogram approximates to a bell-shaped curve than with the tannins
+and growth example that only had 9 records. However, it is still best to check
+the QQ (quantile-quantile) plot of your residuals:
+
+```{r resid_qq, exercise=TRUE, code.completion=FALSE}
+crop_growth_lm <- lm(yield ~ soil, data = crop_growth)
+
+```
+```{r resid_qq-hint-1}
+crop_growth_lm <- lm(yield ~ soil, data = crop_growth)
+# remember to store your errors in an R object
+crop_growth_error <- residuals(crop_growth_lm)
+```
+```{r resid_qq-hint-2}
+crop_growth_lm <- lm(yield ~ soil, data = crop_growth)
+crop_growth_error <- residuals(crop_growth_lm)
+# Use gf_qq to display the residuals ordered from lowest to highest
+gf_qq(~ crop_growth_error)
+```
+```{r resid_qq-hint-3}
+crop_growth_lm <- lm(yield ~ soil, data = crop_growth)
+crop_growth_error <- residuals(crop_growth_lm)
+gf_qq(~ crop_growth_error) %>% 
+  gf_qqline() # Add the theoretical optimum line
+```
+
+Whilst there are a couple of outlier residuals (see your original boxplot of
+these data), it is clear that most of your residuals roughly follow a straight
+line so you can assume that the linear model is valid.
