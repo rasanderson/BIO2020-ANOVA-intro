@@ -190,7 +190,7 @@ Two variations on boxplots have become popular in recent years:
 
 * Violin plots, created with
 
-`gf_violin(response_variable + explanatory_variable, data = datasetname)`
+`gf_violin(response_variable ~ explanatory_variable, data = datasetname)`
 
 Experiment with these alternatives in the R console above, and you will be
 familiar with them should you see them in any books, papers or lectures.
